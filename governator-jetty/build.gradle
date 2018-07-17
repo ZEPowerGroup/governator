@@ -1,10 +1,19 @@
 apply plugin: 'java'
 
 dependencies {
+    compile project(':governator-api')
     compile project(':governator-core')
-    compile 'com.google.inject.extensions:guice-servlet:4.0'
-    compile 'com.sun.jersey:jersey-server:1.19'
-    compile 'org.eclipse.jetty:jetty-servlet:9.2.12.v20150709'
-    
-    testCompile 'com.sun.jersey.contribs:jersey-guice:1.19'
+    compile libraries.guice
+    compile libraries.guice_servlet
+    compile libraries.guice_multibindings
+    compile libraries.inject
+    compile libraries.servlet_api
+    compile libraries.jetty_server
+    compile libraries.jetty_servlet
+    compile libraries.slf4j_api
+
+    testCompile libraries.jersey_guice
+    testCompile libraries.testng
+    testCompile 'javax.ws.rs:jsr311-api:1.1.1'
+    testCompile libraries.junit
 }

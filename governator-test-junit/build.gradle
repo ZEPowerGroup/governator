@@ -1,6 +1,7 @@
 apply plugin: 'java'
 
 dependencies {
-    compile     project(':governator')
-    compile     "junit:junit:4.11"
+    compile  project(':governator')
+    compile  libraries.guice
+    compile  libraries.junit
 }

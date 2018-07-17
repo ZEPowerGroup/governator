@@ -14,36 +14,88 @@
  * limitations under the License.
  */
 
+buildscript {
+  repositories {
+    maven {url 'http://repo.zepower.com/public'}
+  }
+  dependencies {
+    classpath 'com.ze.gradle:gradle-plugins:1.1.10'
+    classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.2.0'
+  }
+}
+
 plugins {
-    id 'nebula.netflixoss' version '2.2.10'
+//    id 'nebula.netflixoss' version '2.2.10'
     id 'nebula.provided-base' version '2.0.1'
 }
 
+
+
+//allprojects { // Not working if its enclosed
+  apply plugin: 'ca.cutterslade.analyze'
+//}
+
 subprojects {
-    apply plugin: 'nebula.netflixoss'
+    group = 'com.netflix.governator'
+    version = '1.12.15.ZE.1-SNAPSHOT'
+
+    apply plugin: 'com.ze.publish'
     apply plugin: 'java'
+//    apply plugin: 'nebula.netflixoss'
     apply plugin: 'nebula.provided-base'
+    apply plugin: 'ca.cutterslade.analyze'
 
-    repositories {
-        mavenLocal()
-        jcenter()
+    if (path != ':governator-annotations') {
+        tasks['generateZeReleaseProperties'].enabled = false // turn off because does not work without svn
     }
+    tasks['javadoc'].enabled = false
 
-    group = "com.netflix.governator"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     test {
         useTestNG()
     }
 
-    dependencies {
-        testCompile 'org.testng:testng:6.1.1'
-        testCompile 'org.slf4j:slf4j-log4j12:1.7.2'
+    ext {
+        libraries = [
+            jackson_databind   : dependencies
+                .create(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.4.3'),
+            guava              : dependencies.create(group: 'com.google.guava', name: 'guava', version: '25.1-jre'),
+            guice              : dependencies
+                .create(group: 'com.google.inject', name: 'guice', version: "${guice_version}"),
+            guice_grapher      : dependencies
+                .create(group: 'com.google.inject.extensions', name: 'guice-grapher', version: "${guice_version}"),
+            guice_multibindings: dependencies
+                .create(group: 'com.google.inject.extensions', name: 'guice-multibindings', version: "${guice_version}"),
+            guice_servlet      : dependencies
+                .create(group: 'com.google.inject.extensions', name: 'guice-servlet', version: "${guice_version}"),
+            jersey_server      : dependencies
+                .create(group: 'com.sun.jersey', name: 'jersey-server', version: "${jersey_version}"),
+            jersey_servlet     : dependencies
+                .create(group: 'com.sun.jersey', name: 'jersey-servlet', version: "${jersey_version}"),
+            jersey_guice       : dependencies
+                .create(group: 'com.sun.jersey.contribs', name: 'jersey-guice', version: "${jersey_version}"),
+            inject             : dependencies.create(group: 'javax.inject', name: 'javax.inject', version: '1'),
+            servlet_api        : dependencies.create(group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'),
+            junit              : dependencies.create(group: 'junit', name: 'junit', version: '4.11'),
+            jetty_server       : dependencies
+                .create(group: 'org.eclipse.jetty', name: 'jetty-server', version: "${jetty_version}"),
+            jetty_servlet      : dependencies
+                .create(group: 'org.eclipse.jetty', name: 'jetty-servlet', version: "${jetty_version}"),
+            hamcrest_core      : dependencies
+                .create(group: 'org.hamcrest', name: 'hamcrest-core', version: "${hamcrest_version}"),
+            hamcrest_library   : dependencies
+                .create(group: 'org.hamcrest', name: 'hamcrest-library', version: "${hamcrest_version}"),
+            mockito_all        : dependencies.create(group: 'org.mockito', name: 'mockito-all', version: '1.9.5'),
+            slf4j_api          : dependencies.create(group: 'org.slf4j', name: 'slf4j-api', version: '1.6.3'),
+            testng             : dependencies.create(group: 'org.testng', name: 'testng', version: '6.1.1')
+        ]
     }
-
-    eclipse {
-        classpath {
-            downloadSources = true
-            downloadJavadoc = true
-        }
-    }
+//    eclipse {
+//        classpath {
+//            downloadSources = true
+//            downloadJavadoc = true
+//        }
+//    }
 }

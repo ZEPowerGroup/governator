@@ -6,8 +6,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import junit.framework.Assert;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
@@ -18,6 +16,7 @@ import com.google.inject.AbstractModule;
 import com.netflix.governator.guice.runner.TerminationEvent;
 import com.netflix.governator.guice.runner.events.SelfDestructingTerminationEvent;
 import com.netflix.governator.guice.runner.standalone.StandaloneRunnerModule;
+import junit.framework.Assert;
 
 public class TestStandaloneApplication {
     private static Logger LOG = LoggerFactory.getLogger(TestStandaloneApplication.class);
@@ -47,7 +46,7 @@ public class TestStandaloneApplication {
     
     @Test(enabled=false)
     public void shouldCreateSingletonAndExitAfter1Second() throws Exception {
-        Stopwatch sw = new Stopwatch().start();
+        final Stopwatch sw = Stopwatch.createUnstarted().start();
         
         final TerminationEvent event = new SelfDestructingTerminationEvent(1, TimeUnit.SECONDS);
         LifecycleInjector.builder()

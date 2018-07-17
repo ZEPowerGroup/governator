@@ -2,10 +2,13 @@ apply plugin: 'java'
 
 dependencies {
     compile     project(':governator-core')
-    compile     'com.google.inject.extensions:guice-servlet:4.0'
+    compile     libraries.guice
+    compile     libraries.guice_servlet
+    compile     libraries.inject
+    compile     libraries.slf4j_api
 
-    provided    'javax.servlet:javax.servlet-api:3.0.1'
+    provided    libraries.servlet_api
 
-    testCompile "org.mockito:mockito-all:1.9.5"
-    testCompile 'junit:junit:4.10'
+    testCompile libraries.junit
+    testCompile libraries.mockito_all
 }

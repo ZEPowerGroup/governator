@@ -16,6 +16,12 @@
 
 package com.netflix.governator.lifecycle.warmup;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
@@ -27,11 +33,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.inject.TypeLiteral;
 import com.netflix.governator.annotations.WarmUp;
 import com.netflix.governator.lifecycle.LifecycleMethods;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Manages building of dependencies
@@ -182,7 +183,7 @@ public class DAGManager
         {
             TypeLiteral<?> parentType = (TypeLiteral<?>)parent;
             TypeLiteral<?> childType = (TypeLiteral<?>)child;
-            if ( TypeToken.of(parentType.getType()).isAssignableFrom(childType.getType()) )
+            if ( TypeToken.of(parentType.getType()).isSupertypeOf(childType.getType()) )
             {
                 dependencies.put(parent, child);
             }
