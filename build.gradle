@@ -25,15 +25,11 @@ buildscript {
 }
 
 plugins {
-//    id 'nebula.netflixoss' version '2.2.10'
+//    id 'nebula.netflixoss' version '2.2.10' // Commented out to let ZE publishing plugin working
     id 'nebula.provided-base' version '2.0.1'
 }
 
-
-
-//allprojects { // Not working if its enclosed
-  apply plugin: 'ca.cutterslade.analyze'
-//}
+apply plugin: 'ca.cutterslade.analyze'
 
 subprojects {
     group = 'com.netflix.governator'
@@ -41,7 +37,7 @@ subprojects {
 
     apply plugin: 'com.ze.publish'
     apply plugin: 'java'
-//    apply plugin: 'nebula.netflixoss'
+//    apply plugin: 'nebula.netflixoss' // Commented out to let ZE publishing plugin working
     apply plugin: 'nebula.provided-base'
     apply plugin: 'ca.cutterslade.analyze'
 
@@ -92,7 +88,7 @@ subprojects {
             testng             : dependencies.create(group: 'org.testng', name: 'testng', version: '6.1.1')
         ]
     }
-//    eclipse {
+//    eclipse { // Commented out to let ZE publishing plugin working
 //        classpath {
 //            downloadSources = true
 //            downloadJavadoc = true

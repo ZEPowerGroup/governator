@@ -1,3 +1,7 @@
+1.12.15.ZE.1 - July, 2018
+==============================
+* Updated to use Guava 25.1-jre
+
 1.2.3 - 1.2.8 - xxxxxxxxxxxxx
 ==============================
 * Updated to use Guava 14
